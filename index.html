@@ -1095,9 +1095,136 @@ body.lang-ta .ta-block { display: block !important; }
   .lang-btn { padding: 6px 14px; font-size: 0.65rem; }
 }
 @media (max-width: 480px) { #music-player { bottom: 16px; right: 16px; } .music-panel { width: 200px; } }
+
+/* ── Welcome Splash ── */
+#splash {
+  position: fixed; inset: 0; z-index: 99999;
+  background: linear-gradient(160deg, #5a0a0a 0%, #8a1515 40%, #6a0e0e 100%);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  cursor: pointer; user-select: none;
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+#splash.hide {
+  opacity: 0; pointer-events: none; transform: scale(1.04);
+}
+.splash-glow {
+  position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+}
+.splash-glow::before {
+  content: '';
+  position: absolute; top: -40%; left: 50%; transform: translateX(-50%);
+  width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(212,160,23,0.18) 0%, transparent 70%);
+  animation: glowPulse 3s ease-in-out infinite;
+}
+@keyframes glowPulse {
+  0%,100% { transform: translateX(-50%) scale(1); opacity: 0.6; }
+  50%      { transform: translateX(-50%) scale(1.2); opacity: 1; }
+}
+.splash-border-top {
+  position: absolute; top: 0; left: 0; right: 0; height: 5px;
+  background: linear-gradient(90deg, #5a0a0a, var(--gold), #f0c040, var(--gold), #5a0a0a);
+}
+.splash-border-bot {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 5px;
+  background: linear-gradient(90deg, #5a0a0a, var(--gold), #f0c040, var(--gold), #5a0a0a);
+}
+.splash-lamp-l { position: absolute; left: 24px; top: 50%; transform: translateY(-50%); font-size: 2.5rem; opacity: 0.7; animation: lampSway 3s ease-in-out infinite; }
+.splash-lamp-r { position: absolute; right: 24px; top: 50%; transform: translateY(-50%); font-size: 2.5rem; opacity: 0.7; animation: lampSway 3s ease-in-out infinite reverse; }
+@keyframes lampSway { 0%,100%{transform:translateY(-50%) rotate(-4deg);} 50%{transform:translateY(-50%) rotate(4deg);} }
+
+.splash-om { font-size: clamp(2.5rem,8vw,4rem); color: var(--gold); margin-bottom: 12px; animation: glowPulse 2s ease-in-out infinite; }
+.splash-flowers { font-size: 1.3rem; letter-spacing: 6px; margin-bottom: 24px; animation: fadeInUp 1s 0.2s both; }
+.splash-title-ta {
+  font-family: 'Noto Serif Tamil', serif;
+  font-size: clamp(1.6rem, 5vw, 2.6rem);
+  color: var(--gold-pale); font-weight: 700;
+  line-height: 1.4; text-align: center;
+  animation: fadeInUp 1s 0.4s both;
+}
+.splash-title-en {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.8rem, 2.5vw, 1.1rem);
+  color: rgba(245,224,154,0.6); letter-spacing: 0.3em;
+  margin-top: 6px; text-align: center;
+  animation: fadeInUp 1s 0.6s both;
+}
+.splash-divider {
+  width: 180px; height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+  margin: 22px auto;
+  animation: fadeInUp 1s 0.7s both;
+}
+.splash-date {
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+  font-size: clamp(1rem, 3vw, 1.3rem);
+  color: rgba(245,224,154,0.75); text-align: center;
+  animation: fadeInUp 1s 0.8s both;
+}
+.splash-tap-btn {
+  margin-top: 40px;
+  padding: 16px 48px;
+  background: linear-gradient(135deg, var(--gold), #e8b820);
+  border: none; border-radius: 2px;
+  font-family: 'Noto Serif Tamil', serif;
+  font-size: clamp(1rem, 3vw, 1.2rem);
+  font-weight: 700; color: var(--red-deep);
+  cursor: pointer; letter-spacing: 0.04em;
+  box-shadow: 0 6px 28px rgba(212,160,23,0.45);
+  animation: fadeInUp 1s 1s both, btnPulse 2s 2s ease-in-out infinite;
+  transition: transform 0.2s;
+}
+.splash-tap-btn:hover { transform: scale(1.04); }
+@keyframes btnPulse {
+  0%,100% { box-shadow: 0 6px 28px rgba(212,160,23,0.45); }
+  50%      { box-shadow: 0 8px 40px rgba(212,160,23,0.8); }
+}
+.splash-music-hint {
+  margin-top: 16px;
+  font-family: 'Cinzel', serif; font-size: 0.62rem;
+  letter-spacing: 0.25em; color: rgba(245,224,154,0.4);
+  text-transform: uppercase;
+  animation: fadeInUp 1s 1.2s both;
+}
+@keyframes fadeInUp {
+  from { opacity:0; transform:translateY(20px); }
+  to   { opacity:1; transform:translateY(0); }
+}
 </style>
 </head>
 <body class="lang-ta">
+
+<!-- ══════════ WELCOME SPLASH ══════════ -->
+<div id="splash" onclick="enterInvitation()">
+  <div class="splash-glow"></div>
+  <div class="splash-border-top"></div>
+  <div class="splash-border-bot"></div>
+  <div class="splash-lamp-l">🪔</div>
+  <div class="splash-lamp-r">🪔</div>
+
+  <div class="splash-om">ॐ</div>
+  <div class="splash-flowers">🌺 🌸 🌼 🌸 🌺</div>
+
+  <div class="splash-title-ta">
+    ராகுல்குமார்<br>
+    <span style="font-size:0.6em;color:rgba(212,160,23,0.7);font-weight:400;">மற்றும்</span><br>
+    முத்துஷரணி
+  </div>
+  <div class="splash-title-en">Ragulkumar &amp; Muthusharani</div>
+
+  <div class="splash-divider"></div>
+
+  <div class="splash-date">
+    திருமணம் · 4th June 2026<br>
+    <span style="font-size:0.85em;opacity:0.7;">நாகர்கோவில், தமிழ்நாடு</span>
+  </div>
+
+  <button class="splash-tap-btn">
+    🌺 அழைப்பிதழை திறக்கவும் · Open Invitation 🌺
+  </button>
+  <div class="splash-music-hint">🎼 Cinematic orchestra will begin automatically</div>
+</div>
 
 <!-- ══════════ LANGUAGE TOGGLE ══════════ -->
 <div id="lang-toggle">
@@ -1286,11 +1413,12 @@ body.lang-ta .ta-block { display: block !important; }
         </div>
         <div class="family-parents ta-only">
           திரு. ராஜ்குமார்<br>
-          திருமதி. யசோதா
+          திருமதி. யசோதா<br>
+          <small style="font-size:0.8em;opacity:0.7;">சேலம், தமிழ்நாடு</small>
         </div>
         <div class="family-parents-en">
-          <span class="ta-only">Mr. Rajkumar<br>Mrs. Yasodha<br><em>Nagercoil, Tamil Nadu</em></span>
-          <span class="en-only" style="display:none;">Son of Mr. Rajkumar<br>&amp; Mrs. Yasodha<br><em>Nagercoil, Tamil Nadu</em></span>
+          <span class="ta-only">Mr. Rajkumar<br>Mrs. Yasodha<br><em>Salem, Tamil Nadu</em></span>
+          <span class="en-only" style="display:none;">Son of Mr. Rajkumar<br>&amp; Mrs. Yasodha<br><em>Salem, Tamil Nadu</em></span>
         </div>
       </div>
 
@@ -1889,139 +2017,502 @@ document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 </script>
 
 <!-- ══════════ FLOATING MUSIC PLAYER ══════════ -->
-<!-- Hidden YouTube iframe for audio -->
-<div style="position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;overflow:hidden;" aria-hidden="true">
-  <iframe id="yt-player" width="1" height="1" frameborder="0" allow="autoplay"
-    src="about:blank"></iframe>
-</div>
-
 <div id="music-player">
-  <!-- Expanded panel -->
-  <div class="music-panel" id="music-panel">
-    <div class="music-panel-title">🎵 Tamil Devotional Music</div>
-    <div class="music-track-name" id="track-name">விநாயகர் அகவல்</div>
-    <div class="music-track-sub" id="track-sub">Vinayagar Agaval · Instrumental</div>
+  <div class="music-panel open" id="music-panel">
+    <div class="music-panel-title">🎼 Cinematic Orchestra</div>
+    <div class="music-track-name" id="track-name">Eternal Vows</div>
+    <div class="music-track-sub" id="track-sub">Romantic Strings · Wedding Theme</div>
     <div class="music-controls">
       <button class="ctrl-btn" onclick="prevTrack()" title="Previous">⏮</button>
-      <button class="ctrl-btn" id="play-pause-btn" onclick="togglePlay()" title="Play/Pause">▶</button>
+      <button class="ctrl-btn" id="play-pause-btn" onclick="togglePlay()" title="Play/Pause">⏸</button>
       <button class="ctrl-btn" onclick="nextTrack()" title="Next">⏭</button>
-      <input type="range" class="volume-slider" id="vol-slider" min="0" max="100" value="70" oninput="setVol(this.value)" title="Volume">
+      <input type="range" class="volume-slider" id="vol-slider" min="0" max="100" value="60"
+        oninput="setVolume(this.value)" title="Volume">
     </div>
     <div class="track-dots" id="track-dots"></div>
+    <div style="font-family:'Noto Serif Tamil',serif;font-size:0.65rem;color:rgba(245,224,154,0.45);text-align:center;margin-top:10px;line-height:1.5;">
+      தொடுக்க இசை தொடங்கும்<br><span style="font-family:'Cinzel',serif;letter-spacing:0.1em;font-size:0.58rem;">Tap anywhere to start</span>
+    </div>
   </div>
-
-  <!-- Main toggle button -->
-  <button class="music-btn" id="music-toggle-btn" onclick="togglePanel()" title="Music">
-    🎵
-  </button>
+  <button class="music-btn playing" id="music-toggle-btn" onclick="togglePanel()" title="Music">🎶</button>
 </div>
 
 <script>
-// ── Music Player ───────────────────────────────────────────
-const TRACKS = [
-  { name: 'விநாயகர் அகவல்',    sub: 'Vinayagar Agaval · Flute',          ytId: 'k2PqFHpoCP8' },
-  { name: 'தேவாரம்',           sub: 'Thevaram · Nadaswaram Classical',    ytId: 'JoIBVAh0YgA' },
-  { name: 'சுப்ரபாதம்',        sub: 'Suprabhatam · Morning Devotional',   ytId: 'c5rNgUyANDw' },
-  { name: 'திருப்புகழ்',        sub: 'Thiruppugazh · Traditional',         ytId: 'JoIBVAh0YgA' },
-  { name: 'கல்யாண சரண்',      sub: 'Kalyana Saranam · Wedding Hymn',     ytId: 'k2PqFHpoCP8' },
-];
+// ══════════════════════════════════════════════════════════
+//  CINEMATIC HOLLYWOOD ORCHESTRA ENGINE
+//  Strings · Brass · Choir · Harp · Timpani · Epic Pads
+//  Inspired by Hans Zimmer / AR Rahman wedding themes
+// ══════════════════════════════════════════════════════════
+const AudioCtx = window.AudioContext || window.webkitAudioContext;
+let AC = null, MG = null, REVERB = null, COMP = null;
+let isPlaying = false, panelOpen = true, currentTrack = 0;
+let nodes = [], loopTO = null, vol = 0.62;
+let autoStarted = false, noteTimer = null;
 
-let currentTrack = 0;
-let isPlaying = false;
-let panelOpen = false;
-let ytReady = false;
-let ytPlayer = null;
-let noteTimer = null;
+// ── Western scale frequencies (C4 = 261.63 Hz base) ──────
+const C4 = 261.63;
+function freq(semitones) { return C4 * Math.pow(2, semitones/12); }
 
-// Load YouTube IFrame API
-const tag = document.createElement('script');
-tag.src = 'https://www.youtube.com/iframe_api';
-document.head.appendChild(tag);
-
-window.onYouTubeIframeAPIReady = function() {
-  ytPlayer = new YT.Player('yt-player', {
-    height: '1', width: '1',
-    videoId: TRACKS[0].ytId,
-    playerVars: { autoplay: 0, controls: 0, loop: 1, mute: 0 },
-    events: {
-      onReady: () => { ytReady = true; setYTVolume(70); },
-      onStateChange: (e) => {
-        if (e.data === YT.PlayerState.ENDED) nextTrack();
-      }
-    }
-  });
+// Named notes
+const F = {
+  C3:freq(-12), D3:freq(-10), E3:freq(-9), F3:freq(-7), G3:freq(-5), A3:freq(-3), B3:freq(-1),
+  Bb3:freq(-2), Ab3:freq(-4), Eb3:freq(-9),
+  C4:freq(0),  D4:freq(2),  E4:freq(4),  F4:freq(5),  G4:freq(7),  A4:freq(9),  B4:freq(11),
+  Bb4:freq(10), Ab4:freq(8), Eb4:freq(3), Db4:freq(1),
+  C5:freq(12), D5:freq(14), E5:freq(16), F5:freq(17), G5:freq(19), A5:freq(21), B5:freq(23),
+  Bb5:freq(22), Ab5:freq(20), Eb5:freq(15),
+  C6:freq(24), D6:freq(26), E6:freq(28), G6:freq(31), A6:freq(33),
+  C2:freq(-24), G2:freq(-17), F2:freq(-19), Bb2:freq(-14), Eb2:freq(-21),
 };
 
-// Build track dots
-const dotContainer = document.getElementById('track-dots');
-TRACKS.forEach((_, i) => {
-  const dot = document.createElement('div');
-  dot.className = 'track-dot' + (i === 0 ? ' active' : '');
-  dot.onclick = () => goToTrack(i);
-  dotContainer.appendChild(dot);
-});
+// ── 5 Cinematic tracks ────────────────────────────────────
+const TRACKS = [
+  {
+    name: "Eternal Vows",
+    sub:  "Romantic Strings · Wedding Theme",
+    bpm:  68,
+    // Lush string melody over romantic chord progression (I-V-vi-IV in C major)
+    chords: [
+      // [root, [chord intervals], duration beats, bass]
+      {r:F.C3, ch:[0,4,7,12], d:4, b:F.C2},
+      {r:F.G3, ch:[0,4,7,11], d:4, b:F.G2},
+      {r:F.A3, ch:[0,3,7,12], d:4, b:F.A3*.5},
+      {r:F.F3, ch:[0,4,7,12], d:4, b:F.F2},
+    ],
+    melody: [
+      [F.E5,1],[F.D5,0.5],[F.C5,0.5],[F.E5,2],
+      [F.G5,1],[F.F5,0.5],[F.E5,0.5],[F.D5,2],
+      [F.C5,1],[F.E5,1],[F.G5,1],[F.A5,1],
+      [F.G5,2],[F.E5,1],[F.C5,1],
+      [F.F5,1],[F.G5,0.5],[F.A5,0.5],[F.G5,2],
+      [F.E5,1],[F.F5,1],[F.D5,2],
+      [F.C5,0.5],[F.D5,0.5],[F.E5,1],[F.F5,1],[F.G5,1],
+      [F.E5,2],[F.C5,2],
+    ],
+    harp: [F.C4,F.E4,F.G4,F.C5,F.G4,F.E4],
+  },
+  {
+    name: "Rise of Love",
+    sub:  "Epic Orchestral · Brass & Strings",
+    bpm:  76,
+    chords: [
+      {r:F.F3, ch:[0,4,7,12], d:4, b:F.F2},
+      {r:F.C3, ch:[0,4,7,12], d:4, b:F.C2},
+      {r:F.Bb3,ch:[0,4,7,12], d:4, b:F.Bb2},
+      {r:F.C3, ch:[0,4,7,12], d:4, b:F.C2},
+    ],
+    melody: [
+      [F.F5,1],[F.G5,1],[F.A5,2],
+      [F.Bb5,1],[F.A5,0.5],[F.G5,0.5],[F.F5,2],
+      [F.G5,1],[F.A5,1],[F.Bb5,1],[F.C6,1],
+      [F.A5,2],[F.F5,2],
+      [F.C5,1],[F.D5,1],[F.E5,1],[F.F5,1],
+      [F.G5,2],[F.A5,1],[F.G5,1],
+      [F.F5,1],[F.E5,1],[F.D5,1],[F.C5,1],
+      [F.F5,4],
+    ],
+    harp: [F.F4,F.A4,F.C5,F.F5,F.C5,F.A4],
+  },
+  {
+    name: "Sacred Union",
+    sub:  "Choir & Strings · Ceremonial",
+    bpm:  58,
+    chords: [
+      {r:F.C3, ch:[0,3,7,12], d:4, b:F.C2},
+      {r:F.Eb3,ch:[0,4,7,12], d:4, b:F.Eb2},
+      {r:F.Ab3,ch:[0,4,7,12], d:4, b:F.Ab3*.5},
+      {r:F.Bb3,ch:[0,3,7,12], d:4, b:F.Bb2},
+    ],
+    melody: [
+      [F.C5,2],[F.Eb5,1],[F.G5,1],
+      [F.Ab5,2],[F.G5,1],[F.Eb5,1],
+      [F.F5,1],[F.Eb5,1],[F.D5,1],[F.C5,1],
+      [F.Bb4,3],[F.C5,1],
+      [F.Eb5,1],[F.F5,1],[F.G5,2],
+      [F.Ab5,2],[F.Bb5,1],[F.Ab5,1],
+      [F.G5,1],[F.F5,1],[F.Eb5,1],[F.D5,1],
+      [F.Eb5,4],
+    ],
+    harp: [F.C4,F.Eb4,F.G4,F.Bb4,F.G4,F.Eb4],
+  },
+  {
+    name: "Golden Promise",
+    sub:  "Hans Zimmer Style · Piano & Strings",
+    bpm:  72,
+    chords: [
+      {r:F.G3, ch:[0,4,7,12], d:4, b:F.G2},
+      {r:F.D3, ch:[0,4,7,11], d:4, b:F.D3*.5},
+      {r:F.E3, ch:[0,3,7,12], d:4, b:F.E3*.5},
+      {r:F.C3, ch:[0,4,7,12], d:4, b:F.C2},
+    ],
+    melody: [
+      [F.G5,1],[F.A5,1],[F.B5,2],
+      [F.D6,1],[F.B5,0.5],[F.A5,0.5],[F.G5,2],
+      [F.E5,1],[F.G5,1],[F.A5,1],[F.B5,1],
+      [F.G5,3],[F.A5,1],
+      [F.B5,1],[F.A5,1],[F.G5,1],[F.E5,1],
+      [F.D5,1],[F.E5,1],[F.F4,2],  // intentional tension
+      [F.G4,1],[F.A4,1],[F.B4,1],[F.C5,1],
+      [F.G5,4],
+    ],
+    harp: [F.G4,F.B4,F.D5,F.G5,F.D5,F.B4],
+  },
+  {
+    name: "Forever Together",
+    sub:  "Cinematic Love Theme · Full Orchestra",
+    bpm:  64,
+    chords: [
+      {r:F.D3, ch:[0,4,7,12], d:4, b:F.D3*.5},
+      {r:F.A3, ch:[0,4,7,11], d:4, b:F.A3*.5},
+      {r:F.G3, ch:[0,4,7,12], d:4, b:F.G2},
+      {r:F.A3, ch:[0,4,7,12], d:4, b:F.A3*.5},
+    ],
+    melody: [
+      [F.D5,1],[F.E5,1],[F.F4,1],[F.A5,1],  // soaring
+      [F.B5,2],[F.A5,1],[F.G5,1],
+      [F.F4,1],[F.G5,1],[F.A5,2],
+      [F.D6,3],[F.A5,1],
+      [F.G5,1],[F.F4,1],[F.E5,2],
+      [F.D5,1],[F.E5,1],[F.F4,1],[F.G5,1],
+      [F.A5,2],[F.G5,1],[F.E5,1],
+      [F.D5,4],
+    ],
+    harp: [F.D4,F.F4,F.A4,F.D5,F.A4,F.F4],
+  },
+];
 
-function updateTrackUI() {
-  document.getElementById('track-name').textContent = TRACKS[currentTrack].name;
-  document.getElementById('track-sub').textContent = TRACKS[currentTrack].sub;
-  document.querySelectorAll('.track-dot').forEach((d, i) => d.classList.toggle('active', i === currentTrack));
+// ── Audio init with pro signal chain ─────────────────────
+function initAudio() {
+  if (AC) { if (AC.state==='suspended') AC.resume(); return; }
+  AC = new AudioCtx();
+
+  // Compressor — glues the mix
+  COMP = AC.createDynamicsCompressor();
+  COMP.threshold.value = -18;
+  COMP.knee.value = 8;
+  COMP.ratio.value = 4;
+  COMP.attack.value = 0.003;
+  COMP.release.value = 0.25;
+
+  // Concert hall reverb
+  REVERB = AC.createConvolver();
+  const len = AC.sampleRate * 3.2;
+  const rb = AC.createBuffer(2, len, AC.sampleRate);
+  for (let c=0;c<2;c++) {
+    const d = rb.getChannelData(c);
+    for (let i=0;i<len;i++) {
+      const t = i/AC.sampleRate;
+      // Early reflections + late reverb tail
+      d[i] = (Math.random()*2-1) * Math.exp(-t * 1.8) * (1 + 0.3*Math.sin(i*0.1));
+    }
+  }
+  REVERB.buffer = rb;
+
+  // Signal chain: MG → COMP → REVERB (wet) + dry → destination
+  MG = AC.createGain();
+  MG.gain.value = vol;
+
+  const dryGain = AC.createGain(); dryGain.gain.value = 0.72;
+  const wetGain = AC.createGain(); wetGain.gain.value = 0.38;
+
+  MG.connect(COMP);
+  COMP.connect(dryGain); dryGain.connect(AC.destination);
+  COMP.connect(REVERB); REVERB.connect(wetGain); wetGain.connect(AC.destination);
 }
 
-function goToTrack(idx) {
-  currentTrack = idx;
-  updateTrackUI();
-  if (ytReady && ytPlayer) {
-    ytPlayer.loadVideoById(TRACKS[currentTrack].ytId);
-    if (isPlaying) ytPlayer.playVideo();
+// ── Instrument synthesizers ───────────────────────────────
+
+// Lush strings: layered detuned saws + slow attack
+function playStrings(frequency, startTime, duration, gain=0.18) {
+  if (!AC) return;
+  const env = AC.createGain();
+  env.connect(MG);
+  const atk = Math.min(0.35, duration*0.25);
+  const rel = Math.min(0.4, duration*0.3);
+  env.gain.setValueAtTime(0, startTime);
+  env.gain.linearRampToValueAtTime(gain, startTime+atk);
+  env.gain.setValueAtTime(gain*0.85, startTime+duration-rel);
+  env.gain.linearRampToValueAtTime(0, startTime+duration+0.2);
+
+  // 4 slightly detuned oscillators for richness
+  [-6,-2,+2,+6].forEach((detune, i) => {
+    const osc = AC.createOscillator();
+    osc.type = 'sawtooth';
+    osc.frequency.value = frequency;
+    osc.detune.value = detune;
+    const g = AC.createGain(); g.gain.value = 0.25;
+
+    // Low-pass filter to soften saw → string-like
+    const lpf = AC.createBiquadFilter();
+    lpf.type = 'lowpass';
+    lpf.frequency.value = frequency * 5 + 800;
+    lpf.Q.value = 0.7;
+
+    osc.connect(lpf); lpf.connect(g); g.connect(env);
+    osc.start(startTime); osc.stop(startTime+duration+0.3);
+    nodes.push(osc);
+  });
+}
+
+// Warm brass: square + triangle blend with punchy attack
+function playBrass(frequency, startTime, duration, gain=0.14) {
+  if (!AC) return;
+  const env = AC.createGain();
+  env.connect(MG);
+  const atk = Math.min(0.06, duration*0.08);
+  env.gain.setValueAtTime(0, startTime);
+  env.gain.linearRampToValueAtTime(gain, startTime+atk);
+  env.gain.setValueAtTime(gain*0.7, startTime+duration*0.5);
+  env.gain.linearRampToValueAtTime(0, startTime+duration+0.05);
+
+  ['square','triangle'].forEach((type, i) => {
+    const osc = AC.createOscillator();
+    osc.type = type;
+    osc.frequency.value = frequency * (i===0 ? 1 : 2); // octave layer
+    const hpf = AC.createBiquadFilter();
+    hpf.type = 'bandpass';
+    hpf.frequency.value = frequency * 3;
+    hpf.Q.value = 1.5;
+    const g = AC.createGain(); g.gain.value = i===0 ? 0.6 : 0.3;
+    osc.connect(hpf); hpf.connect(g); g.connect(env);
+    osc.start(startTime); osc.stop(startTime+duration+0.1);
+    nodes.push(osc);
+  });
+}
+
+// Choir pad: sine waves with slow tremolo → "aaah" sound
+function playChoir(frequency, startTime, duration, gain=0.13) {
+  if (!AC) return;
+  const env = AC.createGain();
+  env.connect(MG);
+  env.gain.setValueAtTime(0, startTime);
+  env.gain.linearRampToValueAtTime(gain, startTime+0.5);
+  env.gain.setValueAtTime(gain*0.9, startTime+duration-0.3);
+  env.gain.linearRampToValueAtTime(0, startTime+duration+0.4);
+
+  [1, 2, 3, 4.2].forEach((h, i) => {
+    const osc = AC.createOscillator();
+    osc.type = 'sine';
+    osc.frequency.value = frequency * h;
+    // Tremolo (choir vibrato)
+    const trem = AC.createOscillator();
+    const tremG = AC.createGain();
+    trem.frequency.value = 4.5 + i*0.3;
+    tremG.gain.value = frequency * h * 0.006;
+    trem.connect(tremG); tremG.connect(osc.frequency);
+    const g = AC.createGain(); g.gain.value = [0.5, 0.25, 0.15, 0.06][i];
+    osc.connect(g); g.connect(env);
+    osc.start(startTime); osc.stop(startTime+duration+0.5);
+    trem.start(startTime); trem.stop(startTime+duration+0.5);
+    nodes.push(osc, trem);
+  });
+}
+
+// Harp: plucked sine with fast decay
+function playHarp(frequency, startTime, gain=0.12) {
+  if (!AC) return;
+  const env = AC.createGain();
+  env.connect(MG);
+  env.gain.setValueAtTime(gain, startTime);
+  env.gain.exponentialRampToValueAtTime(0.001, startTime+1.8);
+
+  [1, 2, 3].forEach((h, i) => {
+    const osc = AC.createOscillator();
+    osc.type = 'sine';
+    osc.frequency.value = frequency * h;
+    osc.detune.value = (Math.random()-0.5)*4; // tiny detuning = life
+    const g = AC.createGain(); g.gain.value = [0.6, 0.25, 0.1][i];
+    osc.connect(g); g.connect(env);
+    osc.start(startTime); osc.stop(startTime+2);
+    nodes.push(osc);
+  });
+}
+
+// Timpani: pitched low thud
+function playTimpani(startTime, bassFreq, gain=0.28) {
+  if (!AC) return;
+  const env = AC.createGain();
+  env.connect(MG);
+  env.gain.setValueAtTime(gain, startTime);
+  env.gain.exponentialRampToValueAtTime(0.001, startTime+1.2);
+
+  const osc = AC.createOscillator();
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(bassFreq*1.8, startTime);
+  osc.frequency.exponentialRampToValueAtTime(bassFreq, startTime+0.08);
+
+  const noise = AC.createBufferSource();
+  const nb = AC.createBuffer(1, AC.sampleRate*0.15, AC.sampleRate);
+  const nd = nb.getChannelData(0);
+  for(let i=0;i<nd.length;i++) nd[i]=(Math.random()*2-1)*Math.pow(1-i/nd.length,3);
+  noise.buffer = nb;
+  const ng = AC.createGain(); ng.gain.value = 0.3;
+  noise.connect(ng); ng.connect(env);
+
+  osc.connect(env);
+  osc.start(startTime); osc.stop(startTime+1.3);
+  noise.start(startTime); noise.stop(startTime+0.16);
+  nodes.push(osc, noise);
+}
+
+// Epic bass pad (low sustain under everything)
+function playBassPad(frequency, startTime, duration, gain=0.09) {
+  if (!AC) return;
+  const env = AC.createGain();
+  env.connect(MG);
+  env.gain.setValueAtTime(0, startTime);
+  env.gain.linearRampToValueAtTime(gain, startTime+1.0);
+  env.gain.setValueAtTime(gain, startTime+duration-1);
+  env.gain.linearRampToValueAtTime(0, startTime+duration+0.5);
+
+  const osc = AC.createOscillator();
+  osc.type = 'sine';
+  osc.frequency.value = frequency;
+  const lpf = AC.createBiquadFilter();
+  lpf.type = 'lowpass';
+  lpf.frequency.value = 280;
+  osc.connect(lpf); lpf.connect(env);
+  osc.start(startTime); osc.stop(startTime+duration+0.6);
+  nodes.push(osc);
+}
+
+// ── Sequence playback ─────────────────────────────────────
+function startMusic() {
+  initAudio(); stopNodes();
+  const track = TRACKS[currentTrack];
+  const BD = 60 / track.bpm;
+  const totalBeats = track.chords.reduce((s,c)=>s+c.d, 0);
+  const loopMs = totalBeats * BD * 1000;
+  let t = AC.currentTime + 0.15;
+
+  function scheduleLoop() {
+    let ct = t;
+
+    // 1. Chord layer: strings + choir + bass pad
+    track.chords.forEach(chord => {
+      const dur = chord.d * BD;
+      const chFreqs = chord.ch.map(semi => chord.r * Math.pow(2, semi/12));
+      chFreqs.forEach(f => {
+        playStrings(f, ct, dur, 0.13);
+        playChoir(f, ct, dur, 0.08);
+      });
+      playBassPad(chord.b, ct, dur);
+      ct += dur;
+    });
+
+    // 2. Melody layer: brass + high strings in unison
+    let mt = t;
+    track.melody.forEach(([f, beats]) => {
+      const dur = beats * BD;
+      playStrings(f, mt, dur*0.92, 0.22);
+      playBrass(f * 0.5, mt, dur*0.88, 0.10); // brass one octave below
+      mt += dur;
+    });
+
+    // 3. Harp arpeggios — one every 1.5 beats
+    let ht = t;
+    const harpPattern = track.harp;
+    for (let i=0; i<Math.ceil(totalBeats/1.5); i++) {
+      playHarp(harpPattern[i % harpPattern.length], ht, 0.11);
+      ht += 1.5 * BD;
+    }
+
+    // 4. Timpani — on beat 1 of each chord + accent on beat 3
+    let tt2 = t;
+    track.chords.forEach(chord => {
+      const dur = chord.d * BD;
+      playTimpani(tt2, chord.b, 0.22);
+      if (chord.d >= 4) playTimpani(tt2 + 2*BD, chord.b * 1.5, 0.14);
+      tt2 += dur;
+    });
+
+    t += loopMs / 1000;
+    loopTO = setTimeout(scheduleLoop, loopMs - 500);
   }
+  scheduleLoop();
+}
+
+function stopNodes() {
+  clearTimeout(loopTO);
+  nodes.forEach(n => { try { n.stop(); } catch(e){} });
+  nodes = [];
+}
+
+// ── Player controls ───────────────────────────────────────
+function setPlayingUI(on) {
+  isPlaying = on;
+  document.getElementById('play-pause-btn').textContent = on ? '⏸' : '▶';
+  document.getElementById('music-toggle-btn').classList.toggle('playing', on);
+  document.getElementById('music-toggle-btn').textContent = on ? '🎶' : '🎵';
+  if (on) { if (!noteTimer) noteTimer = setInterval(spawnNote, 1800); }
+  else { clearInterval(noteTimer); noteTimer = null; }
 }
 
 function togglePlay() {
-  if (!ytReady || !ytPlayer) { showNoteFloat(); return; }
-  if (isPlaying) {
-    ytPlayer.pauseVideo();
-    isPlaying = false;
-    document.getElementById('play-pause-btn').textContent = '▶';
-    document.getElementById('music-toggle-btn').classList.remove('playing');
-    document.getElementById('music-toggle-btn').textContent = '🎵';
-    clearInterval(noteTimer);
-  } else {
-    ytPlayer.playVideo();
-    isPlaying = true;
-    document.getElementById('play-pause-btn').textContent = '⏸';
-    document.getElementById('music-toggle-btn').classList.add('playing');
-    document.getElementById('music-toggle-btn').textContent = '🎶';
-    noteTimer = setInterval(spawnNote, 1800);
-  }
+  initAudio();
+  if (isPlaying) { stopNodes(); setPlayingUI(false); }
+  else { startMusic(); setPlayingUI(true); }
 }
 
-function prevTrack() { goToTrack((currentTrack - 1 + TRACKS.length) % TRACKS.length); }
-function nextTrack() { goToTrack((currentTrack + 1) % TRACKS.length); }
+function goToTrack(idx) {
+  const was = isPlaying; stopNodes(); setPlayingUI(false);
+  currentTrack = idx; updateTrackUI();
+  if (was) { startMusic(); setPlayingUI(true); scheduleAdvance(); }
+}
+function prevTrack() { goToTrack((currentTrack-1+TRACKS.length)%TRACKS.length); }
+function nextTrack() { goToTrack((currentTrack+1)%TRACKS.length); }
+function setVolume(v) { vol=v/100; if(MG) MG.gain.value=vol; }
+function togglePanel() { panelOpen=!panelOpen; document.getElementById('music-panel').classList.toggle('open',panelOpen); }
 
-function setVol(v) { setYTVolume(parseInt(v)); }
-function setYTVolume(v) { if (ytReady && ytPlayer) ytPlayer.setVolume(v); }
-
-function togglePanel() {
-  panelOpen = !panelOpen;
-  document.getElementById('music-panel').classList.toggle('open', panelOpen);
+function updateTrackUI() {
+  document.getElementById('track-name').textContent = TRACKS[currentTrack].name;
+  document.getElementById('track-sub').textContent  = TRACKS[currentTrack].sub;
+  document.querySelectorAll('.track-dot').forEach((d,i) => d.classList.toggle('active', i===currentTrack));
 }
 
-// Floating musical notes
-const NOTES = ['♩','♪','♫','♬','🎵','🎶'];
+const dotCont = document.getElementById('track-dots');
+TRACKS.forEach((_,i) => {
+  const dot = document.createElement('div');
+  dot.className = 'track-dot'+(i===0?' active':'');
+  dot.onclick = () => goToTrack(i);
+  dotCont.appendChild(dot);
+});
+
+// ── Splash entry ─────────────────────────────────────────
+function enterInvitation() {
+  const splash = document.getElementById('splash');
+  splash.classList.add('hide');
+  setTimeout(() => splash.style.display='none', 900);
+  initAudio(); startMusic(); setPlayingUI(true); autoStarted=true;
+  panelOpen=true;
+  document.getElementById('music-panel').classList.add('open');
+  setTimeout(()=>{ panelOpen=false; document.getElementById('music-panel').classList.remove('open'); }, 5000);
+  scheduleAdvance();
+}
+
+function scheduleAdvance() {
+  clearTimeout(window._adv);
+  const track = TRACKS[currentTrack];
+  const loopMs = track.chords.reduce((s,c)=>s+c.d,0) * 60/track.bpm * 1000;
+  window._adv = setTimeout(() => {
+    if (isPlaying) { goToTrack((currentTrack+1)%TRACKS.length); }
+  }, loopMs * 3);
+}
+
+// ── Floating notes ────────────────────────────────────────
+const NA = ['♩','♪','♫','♬','🎵','🎶'];
 function spawnNote() {
-  const btn = document.getElementById('music-toggle-btn');
+  const btn = document.getElementById('music-toggle-btn'); if(!btn) return;
   const r = btn.getBoundingClientRect();
   const el = document.createElement('div');
   el.className = 'music-note-float';
-  el.textContent = NOTES[Math.floor(Math.random() * NOTES.length)];
-  el.style.left = (r.left + r.width/2 - 8 + (Math.random()-0.5)*30) + 'px';
-  el.style.top = (r.top - 10) + 'px';
-  el.style.color = Math.random() > 0.5 ? '#d4a017' : '#e07020';
+  el.textContent = NA[Math.floor(Math.random()*NA.length)];
+  el.style.left = (r.left+r.width/2-8+(Math.random()-0.5)*30)+'px';
+  el.style.top  = (r.top-10)+'px';
+  el.style.color = Math.random()>.5 ? '#d4a017' : '#c0a0ff';
   document.body.appendChild(el);
   setTimeout(() => el.remove(), 2600);
 }
-
-function showNoteFloat() { spawnNote(); }
 </script>
 </body>
 </html>
